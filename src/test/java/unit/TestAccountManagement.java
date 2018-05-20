@@ -37,7 +37,8 @@ public class TestAccountManagement {
 
     @Test
     public void testNonExistentUserLogin() {
-        fail();
+        User nullUser = auth.login("nouser", "password");
+        assertNull(nullUser);
     }
 
     @Test
@@ -54,7 +55,8 @@ public class TestAccountManagement {
 
     @Test
     public void testNonExistentAdminLogin() {
-        fail();
+        User nullAdmin = auth.login("noadmin", "password");
+        assertNull(nullAdmin);
     }
 
     @Test
