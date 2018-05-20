@@ -48,14 +48,22 @@ public class TestMarketComprehension {
 
     @Test
     public void testCategoryLabelExtraction(){
+        String[] keywords = {"Ponsonby", "Dog", "Walking"};
+        SearchQuery query = new SearchQuery(keywords);
+        ArrayList<Document> resultDocs = _searchService.search(query);
 
-        
+        ArrayList<Category> categorisedDocs = _docHandler.categorise(resultDocs);
 
+        for(Category c : categorisedDocs){
+            c.extractLabel();
+        }
+        Assert.assertTrue(categorisedDocs.get(0).label().equals("Dog Walking"));
         fail();
     }
 
     @Test
     public void testCategorySummaryGeneration(){
+        
         fail();
     }
 
