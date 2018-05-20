@@ -3,7 +3,11 @@ package unit;
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
-import org.junit.Before;
+import Search.Document;
+import Search.Relevance;
+import Search.Category;
+import BusinessValidation.IdeaValidator;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -20,7 +24,7 @@ public class TestBusinessIdeaValidation {
         }
 
         c.calculatePopularityWeighting(100);
-        assertEquals(0.25, c.getPopularityWeighting());
+        assertEquals(0.25, c.getPopularityWeighting(), 0);
     }
 
     @Test
@@ -29,50 +33,51 @@ public class TestBusinessIdeaValidation {
 
         c.setRelevance(Relevance.NOT_RELEVANT);
         assertEquals(c.getRelevanceType(), Relevance.NOT_RELEVANT);
-        assertEquals(c.getWeightedRelevance(), 0);
+        assertEquals(c.getWeightedRelevance(), 0, 0);
 
         c.setRelevance(Relevance.WEAK_RELEVANT);
         assertEquals(c.getRelevanceType(), Relevance.WEAK_RELEVANT);
-        assertEquals(c.getWeightedRelevance(), 0.25);
+        assertEquals(c.getWeightedRelevance(), 0.25, 0);
 
         c.setRelevance(Relevance.RELEVANT);
         assertEquals(c.getRelevanceType(), Relevance.RELEVANT);
-        assertEquals(c.getWeightedRelevance(), 0.5);
+        assertEquals(c.getWeightedRelevance(), 0.5, 0);
 
         c.setRelevance(Relevance.VERY_RELEVANT);
         assertEquals(c.getRelevanceType(), Relevance.VERY_RELEVANT);
-        assertEquals(c.getWeightedRelevance(), 0.75);
+        assertEquals(c.getWeightedRelevance(), 0.75, 0);
 
         c.setRelevance(Relevance.THE_SAME);
         assertEquals(c.getRelevanceType(), Relevance.THE_SAME);
-        assertEquals(c.getWeightedRelevance(), 1);
+        assertEquals(c.getWeightedRelevance(), 1, 0);
     }
 
     @Test
     public void testCalculatingBusinessMaturityScore() {
         List<Category> categories = new ArrayList<Category>();
 
-        Category c = mock(Category);
-        when(c.getWeightedRelevance()).thenReturn(0);
+        Category c = mock(Category.class);
+        when(c.getWeightedRelevance()).thenReturn(0.0);
         when(c.getPopularityWeighting()).thenReturn(0.2);
         categories.add(c);
 
-        c = mock(Category);
+        c = mock(Category.class);
         when(c.getWeightedRelevance()).thenReturn(0.25);
         when(c.getPopularityWeighting()).thenReturn(0.4);
         categories.add(c);
 
-        c = mock(Category);
+        c = mock(Category.class);
         when(c.getWeightedRelevance()).thenReturn(0.5);
         when(c.getPopularityWeighting()).thenReturn(0.3);
         categories.add(c);
 
-        c = mock(Category);
+        c = mock(Category.class);
         when(c.getWeightedRelevance()).thenReturn(0.75);
         when(c.getPopularityWeighting()).thenReturn(0.1);
         categories.add(c);
 
-        double ideaMaturity = IdeaValidator.calculateIdeaMaturity(categories);
+        IdeaValidator ideaValidator = new IdeaValidator();
+        double ideaMaturity = ideaValidator.calculateIdeaMaturity(categories);
 
         assertEquals(ideaMaturity, 0.325, 0);
     }
