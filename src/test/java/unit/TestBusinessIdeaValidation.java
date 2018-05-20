@@ -17,10 +17,10 @@ public class TestBusinessIdeaValidation {
 
     @Test
     public void testWeightingOfSearchCategories() {
-        Category c = new Category("Test Category");
+        Category c = new Category(1);
 
         for (int i = 0; i < 25; i++) {
-            c.addDocument(new Document());
+            c.addDocument(new Document(i + ""));
         }
 
         c.calculatePopularityWeighting(100);
@@ -29,7 +29,7 @@ public class TestBusinessIdeaValidation {
 
     @Test
     public void testAssigningRelevanceOfSearchCategories() {
-        Category c = new Category("Test Category");
+        Category c = new Category(1);
 
         c.setRelevance(Relevance.NOT_RELEVANT);
         assertEquals(c.getRelevanceType(), Relevance.NOT_RELEVANT);
