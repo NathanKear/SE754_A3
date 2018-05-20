@@ -33,11 +33,24 @@ public class TestMarketComprehension {
 
     @Test
     public void testDocumentClustering(){
+        String[] keywords = {"Ponsonby", "Dog", "Walking"};
+        SearchQuery query = new SearchQuery(keywords);
+        ArrayList<Document> resultDocs = _searchService.search(query);
+
+        ArrayList<Category> categorisedDocs = _docHandler.categorise(resultDocs);
+
+        /* E.g. Documents were categorised into three separate categories - Dog/Cat/Goat Walking */
+        Assert.assertTrue(categorisedDocs.size() == 3);
+        Assert.assertTrue(categorisedDocs.get(0).name.equals("Dog Walking"));
+
         fail();
     }
 
     @Test
     public void testCategoryLabelExtraction(){
+
+        
+
         fail();
     }
 
@@ -51,13 +64,13 @@ public class TestMarketComprehension {
         docs.add(new Document("Ponsonby Dog Walking Inc"));
         docs.add(new Document("Newmarket Dog Walking Inc"));
         docs.add(new Document("Parnell Dog Walking Inc"));
-        docs.add(new Document("Mount Eden Dog Walking Inc"));
-        docs.add(new Document("Sandringham Dog Walking Inc"));
-        docs.add(new Document("Grafton Dog Walking Inc"));
-        docs.add(new Document("Eden Terrace Dog Walking Inc"));
-        docs.add(new Document("Albany Dog Walking Inc"));
-        docs.add(new Document("Kingsland Dog Walking Inc"));
-        docs.add(new Document("Epsom Dog Walking Inc"));
+        docs.add(new Document("Mount Eden Cat Walking Inc"));
+        docs.add(new Document("Sandringham Cat Walking Inc"));
+        docs.add(new Document("Grafton Cat Walking Inc"));
+        docs.add(new Document("Eden Terrace Goat Walking Inc"));
+        docs.add(new Document("Albany Goat Walking Inc"));
+        docs.add(new Document("Kingsland Goat Walking Inc"));
+        docs.add(new Document("Epsom Goat Walking Inc"));
         return docs;
     }
 }
