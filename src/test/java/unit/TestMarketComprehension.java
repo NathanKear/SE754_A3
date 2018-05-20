@@ -57,13 +57,22 @@ public class TestMarketComprehension {
         for(Category c : categorisedDocs){
             c.extractLabel();
         }
-        Assert.assertTrue(categorisedDocs.get(0).label().equals("Dog Walking"));
+        Assert.assertTrue(categorisedDocs.get(0).label().equals("Dog"));
         fail();
     }
 
     @Test
     public void testCategorySummaryGeneration(){
-        
+        String[] keywords = {"Ponsonby", "Dog", "Walking"};
+        SearchQuery query = new SearchQuery(keywords);
+        ArrayList<Document> resultDocs = _searchService.search(query);
+
+        ArrayList<Category> categorisedDocs = _docHandler.categorise(resultDocs);
+
+        for(Category c : categorisedDocs){
+            c.extractSummary();
+        }
+        Assert.assertTrue(categorisedDocs.get(0).summary().equals("Dog Walking"));
         fail();
     }
 
