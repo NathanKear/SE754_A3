@@ -8,7 +8,13 @@ public class SearchQuery {
     private final Map<String, Double> _keywords = new HashMap<String, Double>();
 
     public SearchQuery(String[] keywords) {
-
+        for (String keyword : keywords) {
+            if (_keywords.containsKey(keyword)) {
+                this.adjustKeywordWeighting(keyword, 1.0);
+            } else {
+                _keywords.put(keyword, 1.0);
+            }
+        }
     }
 
     public boolean addKeyword(String keyword) {
@@ -43,17 +49,22 @@ public class SearchQuery {
     }
 
     public double getKeywordWeighting(String keyword) {
-        return _keywords.get(keyword);
+
+        if (_keywords.containsKey(keyword)) {
+            return _keywords.get(keyword);
+        }
+
+        return 0.0;
     }
 
-    public String[] getKeywords() {
-        List<Entry<String, Double>> list = new ArrayList<Entry<String, Double>>(_keywords.entrySet());
-        java.util.Collections.sort(list, new KeywordComparator());
+    public List<String> getKeywords() {
+        List<Entry<String, Double>> entries = new ArrayList<Entry<String, Double>>(_keywords.entrySet());
+        java.util.Collections.sort(entries, new KeywordComparator());
 
-        String[] keywords = new String[list.size()];
+        List<String> keywords = new ArrayList<String>();
 
-        for (int i = 0; i < keywords.length; i++) {
-            keywords[i] = list.get(i).getKey();
+        for (Entry<String, Double> entry : entries) {
+            keywords.add(entry.getKey());
         }
 
         return keywords;
