@@ -56,29 +56,39 @@ public class TestBusinessIdeaValidation {
     public void testCalculatingBusinessMaturityScore() {
         List<Category> categories = new ArrayList<Category>();
 
-        Category c = mock(Category.class);
-        when(c.getWeightedRelevance()).thenReturn(0.0);
-        when(c.getPopularityWeighting()).thenReturn(0.2);
+        Category c = new Category("Test Category 1");
+        c.setRelevance(Relevance.NOT_RELEVANT);
+        addTestDocuments(c, 2);
+        c.calculatePopularityWeighting(10);
         categories.add(c);
 
-        c = mock(Category.class);
-        when(c.getWeightedRelevance()).thenReturn(0.25);
-        when(c.getPopularityWeighting()).thenReturn(0.4);
+        c = new Category("Test Category 2");
+        c.setRelevance(Relevance.WEAK_RELEVANT);
+        addTestDocuments(c, 4);
+        c.calculatePopularityWeighting(10);
         categories.add(c);
 
-        c = mock(Category.class);
-        when(c.getWeightedRelevance()).thenReturn(0.5);
-        when(c.getPopularityWeighting()).thenReturn(0.3);
+        c = new Category("Test Category 3");
+        c.setRelevance(Relevance.RELEVANT);
+        addTestDocuments(c, 3);
+        c.calculatePopularityWeighting(10);
         categories.add(c);
 
-        c = mock(Category.class);
-        when(c.getWeightedRelevance()).thenReturn(0.75);
-        when(c.getPopularityWeighting()).thenReturn(0.1);
+        c = new Category("Test Category 4");
+        c.setRelevance(Relevance.VERY_RELEVANT);
+        addTestDocuments(c, 1);
+        c.calculatePopularityWeighting(10);
         categories.add(c);
 
         IdeaValidator ideaValidator = new IdeaValidator();
         double ideaMaturity = ideaValidator.calculateIdeaMaturity(categories);
 
-        assertEquals(ideaMaturity, 0.325, 0);
+        assertEquals(0.325, ideaMaturity, 0);
+    }
+
+    public void addTestDocuments(Category c, int numOfDocumentsToAdd) {
+        for (int i = 0; i < numOfDocumentsToAdd; i++) {
+            c.addDocument(new Document());
+        }
     }
 }
