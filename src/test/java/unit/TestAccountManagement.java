@@ -31,7 +31,8 @@ public class TestAccountManagement {
 
     @Test
     public void testUserLogin() {
-        fail();
+        User existingUser = auth.login("user", "password");
+        assertEquals(new User("user", UserType.USER), existingUser);
     }
 
     @Test
@@ -47,7 +48,8 @@ public class TestAccountManagement {
 
     @Test
     public void testAdminLogin() {
-        fail();
+        User existingAdmin = auth.login("username", "password");
+        assertEquals(new User("admin", UserType.ADMIN), existingAdmin);
     }
 
     @Test
