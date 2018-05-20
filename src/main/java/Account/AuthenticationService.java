@@ -12,4 +12,8 @@ public class AuthenticationService {
         _db.add(username, password, newUser);
         return newUser;
     }
+
+    public User login(String username, String password) {
+       return _db.get(username, password);
+    }
 }

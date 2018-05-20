@@ -35,45 +35,45 @@ public class TestAccountManagement {
 
     @Test
     public void testUserLogin() {
-        User existingUser = auth.login("user", "password");
+        User existingUser = _auth.login("user", "password");
         assertEquals(new User("user", UserType.BASIC), existingUser);
     }
 
     @Test
     public void testNonExistentUserLogin() {
-        User nullUser = auth.login("nouser", "password");
+        User nullUser = _auth.login("nouser", "password");
         assertNull(nullUser);
     }
 
     @Test
     public void testAdminSignUp() {
-        User newAdmin = auth.signUp("admin", "password", UserType.ADMIN);
+        User newAdmin = _auth.signUp("admin", "password", UserType.ADMIN);
         assertEquals(new User("admin",  UserType.ADMIN), newAdmin);
     }
 
     @Test
     public void testAdminLogin() {
-        User existingAdmin = auth.login("username", "password");
+        User existingAdmin = _auth.login("username", "password");
         assertEquals(new User("admin", UserType.ADMIN), existingAdmin);
     }
 
     @Test
     public void testNonExistentAdminLogin() {
-        User nullAdmin = auth.login("noadmin", "password");
+        User nullAdmin = _auth.login("noadmin", "password");
         assertNull(nullAdmin);
     }
 
     @Test
     public void testNotLoggedInUserSignOut() {
-        User newUser = auth.signUp("user", "password", UserType.BASIC);
-        boolean loggedOut = auth.logout(newUser);
-        assertEquals(true, loggedOutauth);
+        User newUser = _auth.signUp("user", "password", UserType.BASIC);
+        boolean loggedOut = _auth.logout(newUser);
+        assertEquals(true, loggedOut);
     }
 
     @Test
     public void testNotLoggedInAdminSignOut() {
-        User newAdmin = auth.signUp("user", "password", UserType.ADMIN);
-        boolean loggedOut = auth.logout(newAdmin);
-        assertEquals(true, loggedOutauth);
+        User newAdmin = _auth.signUp("user", "password", UserType.ADMIN);
+        boolean loggedOut = _auth.logout(newAdmin);
+        assertEquals(true, loggedOut);
     }
 }
