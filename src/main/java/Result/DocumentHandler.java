@@ -1,4 +1,4 @@
-package Search;
+package Result;
 
 import java.util.ArrayList;
 

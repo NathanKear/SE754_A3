@@ -1,4 +1,4 @@
-package Search;
+package Result;
 
 public class Document {
 

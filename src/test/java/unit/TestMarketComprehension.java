@@ -1,11 +1,14 @@
 package unit;
 
+import Result.Category;
+import Result.Document;
+import Result.DocumentHandler;
+import Result.LanguageProcessor;
 import Search.*;
 
 import java.util.ArrayList;
 
 import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
 
 import org.junit.Assert;
 import org.junit.Before;

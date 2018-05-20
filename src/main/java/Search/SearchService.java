@@ -1,4 +1,6 @@
 package Search;
+import Result.Document;
+
 import java.util.ArrayList;
 
 public class SearchService {
