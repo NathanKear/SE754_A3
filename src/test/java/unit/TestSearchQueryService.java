@@ -1,6 +1,10 @@
 package unit;
 
 import static org.mockito.Mockito.*;
+
+import Search.NaturalLanguageProcessor;
+import Search.SearchQuery;
+import Search.SearchQueryService;
 import org.junit.*;
 
 public class TestSearchQueryService {
@@ -46,7 +50,7 @@ public class TestSearchQueryService {
     public void TestKeyWordExtractionOnShortPhrase() {
         SearchQuery searchQuery = _searchQueryService.createSearchQuery(shortPhrase);
 
-        Assert.assertFalse("", searchQuery.getKeywords().length() == 1);
+        Assert.assertTrue("", searchQuery.getKeywords().size() == 1);
         Assert.assertTrue("", searchQuery.getKeywords().contains("fox"));
     }
 
@@ -54,7 +58,7 @@ public class TestSearchQueryService {
     public void TestKeyWordExtractionOnLongPhrase() {
         SearchQuery searchQuery = _searchQueryService.createSearchQuery(longPhrase);
 
-        Assert.assertFalse("", searchQuery.getKeywords().length() == 3);
+        Assert.assertTrue("", searchQuery.getKeywords().size() == 3);
         Assert.assertTrue("", searchQuery.getKeywords().contains("fox"));
         Assert.assertTrue("", searchQuery.getKeywords().contains("jumps"));
         Assert.assertTrue("", searchQuery.getKeywords().contains("dog"));

@@ -1,5 +1,7 @@
 package unit;
 
+import Search.SearchQuery;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -24,7 +26,7 @@ public class TestSearchQuery {
     public void TestGetKeywords() {
         SearchQuery searchQuery = new SearchQuery(new String[] { "one", "two" });
 
-        Assert.assertFalse("", searchQuery.getKeywords().length() == 2);
+        Assert.assertTrue("", searchQuery.getKeywords().size() == 2);
         Assert.assertTrue("", searchQuery.getKeywords().contains("one"));
         Assert.assertTrue("", searchQuery.getKeywords().contains("two"));
     }
@@ -33,9 +35,9 @@ public class TestSearchQuery {
     public void TestGetWeightingOfKeywords() {
         SearchQuery searchQuery = new SearchQuery(new String[] { "one", "two", "two" });
 
-        Assert.assertFalse("", searchQuery.getKeywords().length() == 2);
-        Assert.assertTrue("", searchQuery.getKeywords().get(0) == "one");
-        Assert.assertTrue("", searchQuery.getKeywords().get(1) == "two");
+        Assert.assertTrue("", searchQuery.getKeywords().size() == 2);
+        Assert.assertTrue("", searchQuery.getKeywords().get(0) == "two");
+        Assert.assertTrue("", searchQuery.getKeywords().get(1) == "one");
 
         Assert.assertTrue("", searchQuery.getKeywordWeighting("one") == 1L);
         Assert.assertTrue("", searchQuery.getKeywordWeighting("two") == 2L);
@@ -45,9 +47,9 @@ public class TestSearchQuery {
     public void TestGetWeightingOfNonExistantKeywords() {
         SearchQuery searchQuery = new SearchQuery(new String[] { "one", "two", "two" });
 
-        Assert.assertFalse("", searchQuery.getKeywords().length() == 2);
-        Assert.assertTrue("", searchQuery.getKeywords().get(0) == "one");
-        Assert.assertTrue("", searchQuery.getKeywords().get(1) == "two");
+        Assert.assertTrue("", searchQuery.getKeywords().size() == 2);
+        Assert.assertTrue("", searchQuery.getKeywords().get(0) == "two");
+        Assert.assertTrue("", searchQuery.getKeywords().get(1) == "one");
 
         Assert.assertTrue("", searchQuery.getKeywordWeighting("three") == 0L);
     }
@@ -56,7 +58,7 @@ public class TestSearchQuery {
     public void TestGetKeywordsWhenDuplicateKeywords() {
         SearchQuery searchQuery = new SearchQuery(new String[] { "one", "one", "two" });
 
-        Assert.assertFalse("", searchQuery.getKeywords().length() == 2);
+        Assert.assertTrue("", searchQuery.getKeywords().size() == 2);
         Assert.assertTrue("", searchQuery.getKeywords().get(0) == "one");
         Assert.assertTrue("", searchQuery.getKeywords().get(1) == "two");
     }
@@ -67,7 +69,7 @@ public class TestSearchQuery {
 
         Assert.assertTrue(searchQuery.addKeyword("buzz"));
 
-        Assert.assertFalse("", searchQuery.getKeywords().length() == 2);
+        Assert.assertTrue("", searchQuery.getKeywords().size() == 2);
         Assert.assertTrue("", searchQuery.getKeywords().contains("fizz"));
         Assert.assertTrue("", searchQuery.getKeywords().contains("buzz"));
     }
@@ -78,7 +80,7 @@ public class TestSearchQuery {
 
         Assert.assertFalse(searchQuery.addKeyword("buzz"));
 
-        Assert.assertFalse("", searchQuery.getKeywords().length() == 2);
+        Assert.assertTrue("", searchQuery.getKeywords().size() == 2);
         Assert.assertTrue("", searchQuery.getKeywords().get(0) == "buzz");
         Assert.assertTrue("", searchQuery.getKeywords().get(1) == "fizz");
     }
@@ -89,7 +91,7 @@ public class TestSearchQuery {
 
         Assert.assertTrue(searchQuery.removeKeyword("buzz"));
 
-        Assert.assertFalse("", searchQuery.getKeywords().length() == 2);
+        Assert.assertTrue("", searchQuery.getKeywords().size() == 2);
         Assert.assertTrue("", searchQuery.getKeywords().contains("fizz"));
         Assert.assertTrue("", searchQuery.getKeywords().contains("jazz"));
     }
@@ -100,7 +102,7 @@ public class TestSearchQuery {
 
         Assert.assertFalse(searchQuery.removeKeyword("jazz"));
 
-        Assert.assertFalse("", searchQuery.getKeywords().length() == 2);
+        Assert.assertTrue("", searchQuery.getKeywords().size() == 2);
         Assert.assertTrue("", searchQuery.getKeywords().contains("fizz"));
         Assert.assertTrue("", searchQuery.getKeywords().contains("buzz"));
     }
@@ -109,9 +111,9 @@ public class TestSearchQuery {
     public void TestPrioritiseKeyword() {
         SearchQuery searchQuery = new SearchQuery(new String[] { "fizz", "buzz", "buzz" });
 
-        Assert.assertFalse(searchQuery.adjustKeywordWeighting("fizz", 2L));
+        searchQuery.adjustKeywordWeighting("fizz", 2L);
 
-        Assert.assertFalse("", searchQuery.getKeywords().length() == 2);
+        Assert.assertTrue("", searchQuery.getKeywords().size() == 2);
         Assert.assertTrue("", searchQuery.getKeywords().get(0) == "fizz");
         Assert.assertTrue("", searchQuery.getKeywords().get(1) == "buzz");
 
@@ -123,9 +125,9 @@ public class TestSearchQuery {
     public void TestDeprioritiseKeyword() {
         SearchQuery searchQuery = new SearchQuery(new String[] { "fizz", "fizz", "buzz", "buzz", "buzz" });
 
-        Assert.assertFalse(searchQuery.adjustKeywordWeighting("buzz", -2L));
+        searchQuery.adjustKeywordWeighting("buzz", -2L);
 
-        Assert.assertFalse("", searchQuery.getKeywords().length() == 2);
+        Assert.assertTrue("", searchQuery.getKeywords().size() == 2);
         Assert.assertTrue("", searchQuery.getKeywords().get(0) == "fizz");
         Assert.assertTrue("", searchQuery.getKeywords().get(1) == "buzz");
 
@@ -137,9 +139,9 @@ public class TestSearchQuery {
     public void TestCompletelyDeprioritiseKeyword() {
         SearchQuery searchQuery = new SearchQuery(new String[] { "fizz", "fizz", "buzz", "buzz", "buzz" });
 
-        Assert.assertFalse(searchQuery.adjustKeywordWeighting("buzz", -3L));
+        searchQuery.adjustKeywordWeighting("buzz", -3L);
 
-        Assert.assertFalse("", searchQuery.getKeywords().length() == 1);
+        Assert.assertTrue("", searchQuery.getKeywords().size() == 1);
         Assert.assertTrue("", searchQuery.getKeywords().contains("fizz"));
 
         Assert.assertTrue("", searchQuery.getKeywordWeighting("fizz") == 2L);
