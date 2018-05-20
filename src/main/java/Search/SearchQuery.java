@@ -5,16 +5,6 @@ import java.util.Map.Entry;
 
 public class SearchQuery {
 
-    /*
-    SearchQuery
-    + keywords : Map<String, Double>
-    + addKeyword(keyword : String, weight : Double) : void
-    + removeKeyword(keyword : String) : boolean
-    + adjustKeywordWeighting(keyword : String, double : adjustment)
-    + getKeywordWeighting(keyword : String) : double
-    + getKeywords() : List<String>
-     */
-
     private final Map<String, Double> _keywords = new HashMap<String, Double>();
 
     public SearchQuery(String[] keywords) {

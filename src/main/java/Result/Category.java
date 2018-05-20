@@ -1,19 +1,23 @@
-package Search;
+package Result;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Category {
 
-    String _name;
+    int _id;
     List<Document> _documents;
     double _popularityWeighting;
     Relevance _relevance;
+    String _summary;
+    String _label;
 
-    public Category (String name) {
-        _name = name;
+    public Category (int id) {
+        _id = id;
         _documents = new ArrayList<Document>();
     }
+
+    public String summary(){ return _summary; }
 
     public void setRelevance (Relevance relevance) {
         _relevance = relevance;
@@ -38,4 +42,10 @@ public class Category {
     public double getPopularityWeighting () {
         return _popularityWeighting;
     }
+
+    public void setSummary(String summary){ _summary = summary; }
+
+    public void setLabel(String label) { _label = label; }
+
+    public String label() { return _label; }
 }

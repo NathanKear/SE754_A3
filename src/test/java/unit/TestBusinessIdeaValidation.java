@@ -1,11 +1,10 @@
 package unit;
 
-import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
-import Search.Document;
-import Search.Relevance;
-import Search.Category;
+import Result.Document;
+import Result.Relevance;
+import Result.Category;
 import BusinessValidation.IdeaValidator;
 
 import org.junit.Test;
@@ -17,10 +16,10 @@ public class TestBusinessIdeaValidation {
 
     @Test
     public void testWeightingOfSearchCategories() {
-        Category c = new Category("Test Category");
+        Category c = new Category(1);
 
         for (int i = 0; i < 25; i++) {
-            c.addDocument(new Document());
+            c.addDocument(new Document(i + ""));
         }
 
         c.calculatePopularityWeighting(100);
@@ -29,7 +28,7 @@ public class TestBusinessIdeaValidation {
 
     @Test
     public void testAssigningRelevanceOfSearchCategories() {
-        Category c = new Category("Test Category");
+        Category c = new Category(1);
 
         c.setRelevance(Relevance.NOT_RELEVANT);
         assertEquals(c.getRelevanceType(), Relevance.NOT_RELEVANT);
@@ -56,25 +55,25 @@ public class TestBusinessIdeaValidation {
     public void testCalculatingBusinessMaturityScore() {
         List<Category> categories = new ArrayList<Category>();
 
-        Category c = new Category("Test Category 1");
+        Category c = new Category(1);
         c.setRelevance(Relevance.NOT_RELEVANT);
         addTestDocuments(c, 2);
         c.calculatePopularityWeighting(10);
         categories.add(c);
 
-        c = new Category("Test Category 2");
+        c = new Category(2);
         c.setRelevance(Relevance.WEAK_RELEVANT);
         addTestDocuments(c, 4);
         c.calculatePopularityWeighting(10);
         categories.add(c);
 
-        c = new Category("Test Category 3");
+        c = new Category(3);
         c.setRelevance(Relevance.RELEVANT);
         addTestDocuments(c, 3);
         c.calculatePopularityWeighting(10);
         categories.add(c);
 
-        c = new Category("Test Category 4");
+        c = new Category(4);
         c.setRelevance(Relevance.VERY_RELEVANT);
         addTestDocuments(c, 1);
         c.calculatePopularityWeighting(10);
@@ -88,7 +87,7 @@ public class TestBusinessIdeaValidation {
 
     public void addTestDocuments(Category c, int numOfDocumentsToAdd) {
         for (int i = 0; i < numOfDocumentsToAdd; i++) {
-            c.addDocument(new Document());
+            c.addDocument(new Document(i + ""));
         }
     }
 }

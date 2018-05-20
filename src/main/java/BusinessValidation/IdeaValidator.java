@@ -1,7 +1,7 @@
 package BusinessValidation;
 
 import java.util.List;
-import Search.Category;
+import Result.Category;
 
 public class IdeaValidator {
 
