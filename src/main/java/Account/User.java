@@ -8,4 +8,14 @@ public class User {
         _username = username;
         _type = type;
     }
+
+    public String getUsername() {
+        return _username;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        User other = (User)obj;
+        return _username.equals(other.getUsername());
+    }
 }

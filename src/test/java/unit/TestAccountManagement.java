@@ -53,7 +53,7 @@ public class TestAccountManagement {
 
     @Test
     public void testAdminLogin() {
-        User existingAdmin = _auth.login("username", "password");
+        User existingAdmin = _auth.login("admin", "password");
         assertEquals(new User("admin", UserType.ADMIN), existingAdmin);
     }
 
@@ -64,14 +64,14 @@ public class TestAccountManagement {
     }
 
     @Test
-    public void testNotLoggedInUserSignOut() {
+    public void testLoggedInUserSignOut() {
         User newUser = _auth.signUp("user", "password", UserType.BASIC);
         boolean loggedOut = _auth.logout(newUser);
         assertEquals(true, loggedOut);
     }
 
     @Test
-    public void testNotLoggedInAdminSignOut() {
+    public void testLoggedInAdminSignOut() {
         User newAdmin = _auth.signUp("user", "password", UserType.ADMIN);
         boolean loggedOut = _auth.logout(newAdmin);
         assertEquals(true, loggedOut);
