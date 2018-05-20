@@ -7,10 +7,13 @@ import static org.mockito.Mockito.*;
 
 public class TestAccountManagement {
     Database _db;
+    AuthenticationService _auth;
 
     @Before
     public void setup() {
         _db = mock(Database.class);
+        _auth = new AuthenticationServer(_db);
+
         when(_db.get(anyString(), anyString()).thenReturn(null));
 
         when(_db.add("user", "password", UserType.USER)).thenReturn(new User("user", UserType.USER));
@@ -22,7 +25,8 @@ public class TestAccountManagement {
 
     @Test
     public void testUserSignUp() {
-       fail();
+        User newUser = auth.signUp("user", "password", UserType.USER);
+        assertEquals(new User("user", UserType.USER), newUser);
     }
 
     @Test
@@ -37,7 +41,8 @@ public class TestAccountManagement {
 
     @Test
     public void testAdminSignUp() {
-        fail();
+        User newAdmin = auth.signUp("admin", "password", UserType.ADMIN);
+        assertEquals(new User("admin", UserType.ADMIN), newAdmin);
     }
 
     @Test
