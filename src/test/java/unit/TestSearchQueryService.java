@@ -44,7 +44,7 @@ public class TestSearchQueryService {
 
     @Test
     public void TestKeyWordExtractionOnShortPhrase() {
-        SearchQuery searchQuery = _searchQueryService.createSearchQuery("");
+        SearchQuery searchQuery = _searchQueryService.createSearchQuery(shortPhrase);
 
         Assert.assertFalse("", searchQuery.getKeywords().length() == 1);
         Assert.assertTrue("", searchQuery.getKeywords().contains("fox"));
@@ -52,7 +52,7 @@ public class TestSearchQueryService {
 
     @Test
     public void TestKeyWordExtractionOnLongPhrase() {
-        SearchQuery searchQuery = _searchQueryService.createSearchQuery("the brown fox jumps over the lazy dog");
+        SearchQuery searchQuery = _searchQueryService.createSearchQuery(longPhrase);
 
         Assert.assertFalse("", searchQuery.getKeywords().length() == 3);
         Assert.assertTrue("", searchQuery.getKeywords().contains("fox"));
