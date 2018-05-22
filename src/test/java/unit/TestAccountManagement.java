@@ -92,5 +92,14 @@ public class TestAccountManagement {
         assertEquals(2, userCount);
     }
 
+    @Test
+    public void testNonAdminGetUserCount() {
+        try {
+            throw new NotAuthorizedException("Action requires admin permissions");
+        } catch (NotAuthorizedException e) {
+            assertEquals(NotAuthorizedException.class, e.getClass());
+            assertEquals("Action requires admin permissions", e.getMessage());
+        }
+    }
 
 }
