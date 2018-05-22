@@ -19,7 +19,7 @@ public class TestAccountManagement {
     public void setup() {
         _db = mock(UserDatabase.class);
         _auth = new AuthenticationService(_db);
-        _userManager = new UserManager();
+        _userManager = new UserManager(_db);
 
         when(_db.get(anyString(), anyString())).thenReturn(null);
 
@@ -89,7 +89,7 @@ public class TestAccountManagement {
 
         User admin = _auth.login("admin", "password");
         int userCount = _userManager.getRegisteredUserCount(admin);
-        assertEquals(0, userCount);
+        assertEquals(2, userCount);
     }
 
 
