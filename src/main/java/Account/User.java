@@ -18,4 +18,8 @@ public class User {
         User other = (User)obj;
         return _username.equals(other.getUsername());
     }
+
+    public UserType getType() {
+        return _type;
+    }
 }

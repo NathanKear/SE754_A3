@@ -88,14 +88,19 @@ public class TestAccountManagement {
         when(_db.getAll()).thenReturn(users);
 
         User admin = _auth.login("admin", "password");
-        int userCount = _userManager.getRegisteredUserCount(admin);
-        assertEquals(2, userCount);
+        try {
+            int userCount = _userManager.getRegisteredUserCount(admin);
+            assertEquals(2, userCount);
+        } catch (NotAuthorizedException e) {
+            fail();
+        }
     }
 
     @Test
     public void testNonAdminGetUserCount() {
         try {
-            throw new NotAuthorizedException("Action requires admin permissions");
+            User user = _auth.login("user", "password");
+            _userManager.getRegisteredUserCount(user);
         } catch (NotAuthorizedException e) {
             assertEquals(NotAuthorizedException.class, e.getClass());
             assertEquals("Action requires admin permissions", e.getMessage());

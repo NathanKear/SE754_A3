@@ -28,4 +28,8 @@ public class AuthenticationService {
         sessions.remove(user);
         return true;
     }
+
+    public boolean isAdmin(User user) {
+        return user.getType().equals(UserType.ADMIN);
+    }
 }

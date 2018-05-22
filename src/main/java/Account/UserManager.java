@@ -1,5 +1,7 @@
 package Account;
 
+import org.mockito.internal.matchers.Not;
+
 import java.util.List;
 
 public class UserManager {
@@ -10,7 +12,11 @@ public class UserManager {
         _db = db;
         _auth = new AuthenticationService(db);
     }
-    public int getRegisteredUserCount(User requestingUser) {
+    public int getRegisteredUserCount(User requestingUser) throws NotAuthorizedException {
+        if (!_auth.isAdmin(requestingUser)) {
+            throw new NotAuthorizedException("Action requires admin permissions");
+        }
+
         List<User> users = _db.getAll();
         return users.size();
     }
