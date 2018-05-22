@@ -1,22 +1,25 @@
 package unit;
 
-import Account.AuthenticationService;
-import Account.User;
-import Account.UserDatabase;
-import Account.UserType;
+import Account.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class TestAccountManagement {
     UserDatabase _db;
     AuthenticationService _auth;
+    UserManager _userManager;
 
     @Before
     public void setup() {
         _db = mock(UserDatabase.class);
         _auth = new AuthenticationService(_db);
+        _userManager = new UserManager();
 
         when(_db.get(anyString(), anyString())).thenReturn(null);
 
@@ -76,4 +79,18 @@ public class TestAccountManagement {
         boolean loggedOut = _auth.logout(newAdmin);
         assertEquals(true, loggedOut);
     }
+
+    @Test
+    public void testAdminGetUserCount() {
+        List<User> users = new ArrayList();
+        users.add(new User("user", UserType.BASIC));
+        users.add(new User("admin", UserType.ADMIN));
+        when(_db.getAll()).thenReturn(users);
+
+        User admin = _auth.login("admin", "password");
+        int userCount = _userManager.getRegisteredUserCount(admin);
+        assertEquals(0, userCount);
+    }
+
+
 }
