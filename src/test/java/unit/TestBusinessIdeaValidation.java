@@ -147,6 +147,11 @@ public class TestBusinessIdeaValidation {
         assertEquals(0.325, ideaMaturity, 0);
     }
 
+    @Test
+    public void testCalculatingBusinessMaturityScoreWhenUserHasNotSetRelevance () {
+
+    }
+
     public void addTestDocuments(Category c, int numOfDocumentsToAdd) {
         for (int i = 0; i < numOfDocumentsToAdd; i++) {
             c.addDocument(new Document(i + ""));
