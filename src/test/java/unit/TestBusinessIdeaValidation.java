@@ -3,11 +3,12 @@ package unit;
 import static org.junit.Assert.*;
 
 import Result.Document;
-import Result.Relevance;
+import Result.DocumentHandler;
 import Result.Category;
+import Result.UnassignedRelevanceException;
+import Result.Relevance;
 import BusinessValidation.IdeaValidator;
 
-import Result.UnassignedRelevanceException;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -37,6 +38,27 @@ public class TestBusinessIdeaValidation {
 
         c.calculatePopularityWeighting(35);
         assertEquals(1, c.getPopularityWeighting(), 0);
+    }
+
+    @Test
+    public void testWeightingOfCategoriesFromSearchResults () {
+        DocumentHandler documentHandler = new DocumentHandler();
+        ArrayList<Document> docs = new ArrayList<Document>();
+
+        docs.add(new Document("Restaurant"));
+        docs.add(new Document("Restaurant"));
+        docs.add(new Document("Restaurant"));
+
+        docs.add(new Document("Cafe"));
+        docs.add(new Document("Cafe"));
+
+        List<Category> categorisedDocuments = documentHandler.categorise(docs);
+
+        Category restaurant = categorisedDocuments.get(0);
+        Category cafe = categorisedDocuments.get(1);
+
+        assertEquals(0.6, restaurant.getPopularityWeighting(), 0);
+        assertEquals(0.4, cafe.getPopularityWeighting(), 0);
     }
 
     @Test

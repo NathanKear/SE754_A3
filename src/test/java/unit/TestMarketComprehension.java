@@ -31,7 +31,7 @@ public class TestMarketComprehension {
     }
 
     @Test
-    public void TestEmptySearch(){
+    public void testEmptySearch(){
         String[] keywords = {"Waiheke Island", "Pet", "Care"};
         SearchQuery query = new SearchQuery(keywords);
         ArrayList<Document> resultDocs = new ArrayList<Document>();
@@ -43,7 +43,7 @@ public class TestMarketComprehension {
     }
 
     @Test
-    public void TestSearchReturnDocuments(){
+    public void testSearchReturnDocuments(){
         String[] keywords = {"Auckland", "Pet", "Care"};
         SearchQuery query = new SearchQuery(keywords);
         ArrayList<Document> resultDocs = _searchService.search(query);
@@ -54,7 +54,7 @@ public class TestMarketComprehension {
     }
 
     @Test
-    public void TestDocumentClustering(){
+    public void testDocumentClustering(){
         String[] keywords = {"Auckland", "Pet", "Care"};
         SearchQuery query = new SearchQuery(keywords);
         ArrayList<Document> resultDocs = _searchService.search(query);
@@ -66,7 +66,7 @@ public class TestMarketComprehension {
     }
 
     @Test
-    public void TestCategoryLabelExtraction(){
+    public void testCategoryLabelExtraction(){
         String[] keywords = {"Auckland", "Pet", "Care"};
         SearchQuery query = new SearchQuery(keywords);
         ArrayList<Document> resultDocs = _searchService.search(query);
@@ -82,7 +82,7 @@ public class TestMarketComprehension {
     }
 
     @Test
-    public void TestCategorySummaryGeneration(){
+    public void testCategorySummaryGeneration(){
         String[] keywords = {"Auckland", "Pet", "Care"};
         SearchQuery query = new SearchQuery(keywords);
         ArrayList<Document> resultDocs = _searchService.search(query);
