@@ -32,4 +32,8 @@ public class AuthenticationService {
     public boolean isAdmin(User user) {
         return user.getType().equals(UserType.ADMIN);
     }
+
+    public UUID getSessionID(User user) {
+        return sessions.get(user);
+    }
 }

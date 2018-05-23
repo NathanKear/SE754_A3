@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -14,21 +15,22 @@ public class TestAccountManagement {
     UserDatabase _userDb;
     AuthenticationService _auth;
     UserManager _userManager;
+    SearchDatabase _searchDb;
 
     @Before
     public void setup() {
         _userDb = mock(UserDatabase.class);
+        _searchDb = mock(SearchDatabase.class);
         _auth = new AuthenticationService(_userDb);
-        _userManager = new UserManager(_userDb);
+        _userManager = new UserManager(_userDb, _searchDb);
 
         when(_userDb.get(anyString(), anyString())).thenReturn(null);
-
         when(_userDb.add("user", "password", new User("user", UserType.BASIC))).thenReturn(true);
         when(_userDb.get("user", "password")).thenReturn(new User("user", UserType.BASIC));
-
         when(_userDb.add("admin", "password", new User("admin", UserType.ADMIN))).thenReturn(true);
         when(_userDb.get("admin", "password")).thenReturn(new User("admin", UserType.ADMIN));
     }
+
 
     @Test
     public void testUserSignUp() {
@@ -110,7 +112,15 @@ public class TestAccountManagement {
     @Test
     public void testSessionSearchHistory() {
         User user = _auth.login("user", "password");
-        _userManager.makeUserSearch(user, "My search");
+        UUID sessionId = _auth.getSessionID(user);
 
+        List<String> searches = new ArrayList();
+        searches.add("Parnell dog walking");
+        searches.add("Alaskan bob sledding");
+        System.out.println(sessionId);
+
+        when(_searchDb.get(user, sessionId)).thenReturn(searches);
+
+        assertEquals(searches.size(), _userManager.getUserSessionSearchCount(user, sessionId));
     }
 }
