@@ -26,9 +26,9 @@ public class StoryRunner extends JUnitStories{
                 .embedderControls()
                 .doGenerateViewAfterStories(true)
                 .doIgnoreFailureInStories(false)
-                .doIgnoreFailureInView(true)
+                .doIgnoreFailureInView(false)
                 .doVerboseFailures(true)
-                .useThreads(5);
+                .useThreads(1);
     }
 
     @Override
