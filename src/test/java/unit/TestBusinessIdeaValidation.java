@@ -67,6 +67,16 @@ public class TestBusinessIdeaValidation {
     }
 
     @Test
+    public void testAssigningTheSameRelevaneToCategory() {
+        Category c = new Category(1);
+
+        c.setRelevance(Relevance.THE_SAME);
+
+        assertEquals(c.getRelevanceType(), Relevance.THE_SAME);
+        assertEquals(c.getWeightedRelevance(), 1, 0);
+    }
+
+    @Test
     public void testAssigningRelevanceOfSearchCategoriesMultipleTimes() {
         Category c = new Category(1);
 
