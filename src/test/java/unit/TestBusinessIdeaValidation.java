@@ -57,6 +57,16 @@ public class TestBusinessIdeaValidation {
     }
 
     @Test
+    public void testAssigningVeryRelevantToCategory() {
+        Category c = new Category(1);
+
+        c.setRelevance(Relevance.VERY_RELEVANT);
+
+        assertEquals(c.getRelevanceType(), Relevance.VERY_RELEVANT);
+        assertEquals(c.getWeightedRelevance(), 0.75, 0);
+    }
+
+    @Test
     public void testAssigningRelevanceOfSearchCategoriesMultipleTimes() {
         Category c = new Category(1);
 
