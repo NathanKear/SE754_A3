@@ -123,4 +123,23 @@ public class TestAccountManagement {
 
         assertEquals(searches.size(), _userManager.getUserSessionSearchCount(user, sessionId));
     }
+
+    @Test
+    public void testSearchHistory() {
+        User user = _auth.login("user", "password");
+        UUID sessionId = _auth.getSessionID(user);
+
+        List<String> searches = new ArrayList();
+        searches.add("Parnell dog walking");
+        searches.add("Alaskan bob sledding");
+        System.out.println(sessionId);
+        _auth.logout(user);
+
+        searches.add("Software lecturer");
+
+        user = _auth.login("user", "password");
+        when(_searchDb.get(user)).thenReturn(searches);
+
+        assertEquals(searches.size(), _userManager.getUserTotalSearchCount(user));
+    }
 }
