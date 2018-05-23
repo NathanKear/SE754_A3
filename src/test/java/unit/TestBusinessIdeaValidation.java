@@ -28,7 +28,12 @@ public class TestBusinessIdeaValidation {
 
     @Test
     public void testAssigningNotRelevantToCategory() {
+        Category c = new Category(1);
+
+        c.setRelevance(Relevance.NOT_RELEVANT);
         
+        assertEquals(c.getRelevanceType(), Relevance.NOT_RELEVANT);
+        assertEquals(c.getWeightedRelevance(), 0, 0);
     }
 
     @Test
