@@ -31,9 +31,19 @@ public class TestBusinessIdeaValidation {
         Category c = new Category(1);
 
         c.setRelevance(Relevance.NOT_RELEVANT);
-        
+
         assertEquals(c.getRelevanceType(), Relevance.NOT_RELEVANT);
         assertEquals(c.getWeightedRelevance(), 0, 0);
+    }
+
+    @Test
+    public void testAssigningWeakRelevanceToCategory() {
+        Category c = new Category(1);
+
+        c.setRelevance(Relevance.WEAK_RELEVANT);
+
+        assertEquals(c.getRelevanceType(), Relevance.WEAK_RELEVANT);
+        assertEquals(c.getWeightedRelevance(), 0.25, 0);
     }
 
     @Test
