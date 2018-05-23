@@ -27,7 +27,69 @@ public class TestBusinessIdeaValidation {
     }
 
     @Test
-    public void testAssigningRelevanceOfSearchCategories() {
+    public void testCalculatingWeightingWhenLessDocumentsThanInCategory() {
+        Category c = new Category(1);
+
+        for (int i = 0; i < 40; i++) {
+            c.addDocument(new Document(i + ""));
+        }
+
+        c.calculatePopularityWeighting(35);
+        assertEquals(1, c.getPopularityWeighting(), 0);
+    }
+
+    @Test
+    public void testAssigningNotRelevantToCategory() {
+        Category c = new Category(1);
+
+        c.setRelevance(Relevance.NOT_RELEVANT);
+
+        assertEquals(c.getRelevanceType(), Relevance.NOT_RELEVANT);
+        assertEquals(c.getWeightedRelevance(), 0, 0);
+    }
+
+    @Test
+    public void testAssigningWeakRelevanceToCategory() {
+        Category c = new Category(1);
+
+        c.setRelevance(Relevance.WEAK_RELEVANT);
+
+        assertEquals(c.getRelevanceType(), Relevance.WEAK_RELEVANT);
+        assertEquals(c.getWeightedRelevance(), 0.25, 0);
+    }
+
+    @Test
+    public void testAssigningNormalRelevanceToCategory() {
+        Category c = new Category(1);
+
+        c.setRelevance(Relevance.RELEVANT);
+
+        assertEquals(c.getRelevanceType(), Relevance.RELEVANT);
+        assertEquals(c.getWeightedRelevance(), 0.5, 0);
+    }
+
+    @Test
+    public void testAssigningVeryRelevantToCategory() {
+        Category c = new Category(1);
+
+        c.setRelevance(Relevance.VERY_RELEVANT);
+
+        assertEquals(c.getRelevanceType(), Relevance.VERY_RELEVANT);
+        assertEquals(c.getWeightedRelevance(), 0.75, 0);
+    }
+
+    @Test
+    public void testAssigningTheSameRelevaneToCategory() {
+        Category c = new Category(1);
+
+        c.setRelevance(Relevance.THE_SAME);
+
+        assertEquals(c.getRelevanceType(), Relevance.THE_SAME);
+        assertEquals(c.getWeightedRelevance(), 1, 0);
+    }
+
+    @Test
+    public void testAssigningRelevanceOfSearchCategoriesMultipleTimes() {
         Category c = new Category(1);
 
         c.setRelevance(Relevance.NOT_RELEVANT);

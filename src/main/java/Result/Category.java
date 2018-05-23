@@ -36,7 +36,7 @@ public class Category {
     }
 
     public void calculatePopularityWeighting (int totalNumberOfDocumentsFromSearch) {
-        _popularityWeighting = (double) _documents.size()/totalNumberOfDocumentsFromSearch;
+        _popularityWeighting = Math.min(1, (double) _documents.size()/totalNumberOfDocumentsFromSearch);
     }
 
     public double getPopularityWeighting () {
