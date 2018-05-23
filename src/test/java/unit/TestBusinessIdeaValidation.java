@@ -27,6 +27,11 @@ public class TestBusinessIdeaValidation {
     }
 
     @Test
+    public void testCalculatingWeightingWhenLessDocumentsThanInCategory() {
+
+    }
+
+    @Test
     public void testAssigningNotRelevantToCategory() {
         Category c = new Category(1);
 
