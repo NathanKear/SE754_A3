@@ -28,7 +28,14 @@ public class TestBusinessIdeaValidation {
 
     @Test
     public void testCalculatingWeightingWhenLessDocumentsThanInCategory() {
+        Category c = new Category(1);
 
+        for (int i = 0; i < 40; i++) {
+            c.addDocument(new Document(i + ""));
+        }
+
+        c.calculatePopularityWeighting(35);
+        assertEquals(1, c.getPopularityWeighting(), 0);
     }
 
     @Test
