@@ -23,6 +23,12 @@ public class DocumentHandler {
         }
 
         ArrayList<Category> categorisedDocs = new ArrayList<Category>(docsByTopic.values());
+
+        int numberOfDocuments = resultDocs.size();
+        for (Category c : categorisedDocs) {
+            c.calculatePopularityWeighting(numberOfDocuments);
+        }
+
         return categorisedDocs;
     }
 
