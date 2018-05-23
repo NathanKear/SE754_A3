@@ -7,6 +7,7 @@ import Result.Relevance;
 import Result.Category;
 import BusinessValidation.IdeaValidator;
 
+import Result.UnassignedRelevanceException;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -45,7 +46,12 @@ public class TestBusinessIdeaValidation {
         c.setRelevance(Relevance.NOT_RELEVANT);
 
         assertEquals(c.getRelevanceType(), Relevance.NOT_RELEVANT);
-        assertEquals(c.getWeightedRelevance(), 0, 0);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 0, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
     }
 
     @Test
@@ -55,7 +61,12 @@ public class TestBusinessIdeaValidation {
         c.setRelevance(Relevance.WEAK_RELEVANT);
 
         assertEquals(c.getRelevanceType(), Relevance.WEAK_RELEVANT);
-        assertEquals(c.getWeightedRelevance(), 0.25, 0);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 0.25, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
     }
 
     @Test
@@ -65,7 +76,12 @@ public class TestBusinessIdeaValidation {
         c.setRelevance(Relevance.RELEVANT);
 
         assertEquals(c.getRelevanceType(), Relevance.RELEVANT);
-        assertEquals(c.getWeightedRelevance(), 0.5, 0);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 0.5, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
     }
 
     @Test
@@ -75,7 +91,12 @@ public class TestBusinessIdeaValidation {
         c.setRelevance(Relevance.VERY_RELEVANT);
 
         assertEquals(c.getRelevanceType(), Relevance.VERY_RELEVANT);
-        assertEquals(c.getWeightedRelevance(), 0.75, 0);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 0.75, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
     }
 
     @Test
@@ -85,7 +106,12 @@ public class TestBusinessIdeaValidation {
         c.setRelevance(Relevance.THE_SAME);
 
         assertEquals(c.getRelevanceType(), Relevance.THE_SAME);
-        assertEquals(c.getWeightedRelevance(), 1, 0);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 1, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
     }
 
     @Test
@@ -94,23 +120,48 @@ public class TestBusinessIdeaValidation {
 
         c.setRelevance(Relevance.NOT_RELEVANT);
         assertEquals(c.getRelevanceType(), Relevance.NOT_RELEVANT);
-        assertEquals(c.getWeightedRelevance(), 0, 0);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 0, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
 
         c.setRelevance(Relevance.WEAK_RELEVANT);
         assertEquals(c.getRelevanceType(), Relevance.WEAK_RELEVANT);
-        assertEquals(c.getWeightedRelevance(), 0.25, 0);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 0.25, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
 
         c.setRelevance(Relevance.RELEVANT);
         assertEquals(c.getRelevanceType(), Relevance.RELEVANT);
-        assertEquals(c.getWeightedRelevance(), 0.5, 0);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 0.5, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
 
         c.setRelevance(Relevance.VERY_RELEVANT);
         assertEquals(c.getRelevanceType(), Relevance.VERY_RELEVANT);
-        assertEquals(c.getWeightedRelevance(), 0.75, 0);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 0.75, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
 
         c.setRelevance(Relevance.THE_SAME);
         assertEquals(c.getRelevanceType(), Relevance.THE_SAME);
-        assertEquals(c.getWeightedRelevance(), 1, 0);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 1, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
     }
 
     @Test
@@ -149,7 +200,18 @@ public class TestBusinessIdeaValidation {
 
     @Test
     public void testCalculatingBusinessMaturityScoreWhenUserHasNotSetRelevance () {
+        List<Category> categories = new ArrayList<Category>();
 
+        Category c = new Category(1);
+        addTestDocuments(c, 2);
+        c.calculatePopularityWeighting(10);
+
+        categories.add(c);
+
+        IdeaValidator ideaValidator = new IdeaValidator();
+        double ideaMaturity = ideaValidator.calculateIdeaMaturity(categories);
+
+        assertEquals(0, ideaMaturity, 0);
     }
 
     public void addTestDocuments(Category c, int numOfDocumentsToAdd) {
