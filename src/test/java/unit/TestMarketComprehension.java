@@ -26,59 +26,74 @@ public class TestMarketComprehension {
         when(_searchService.search(any(SearchQuery.class))).thenReturn(generateDocumentList());
 
         _langProcessor = mock(NaturalLanguageProcessor.class);
-        when(_langProcessor.extractCategoryLabel(any(Category.class))).thenReturn("Dog");
-        when(_langProcessor.extractCategorySummary(any(Category.class))).thenReturn("Dog Walking");
+        when(_langProcessor.findCategoryLabel(any(Category.class))).thenReturn("Dog");
+        when(_langProcessor.findCategorySummary(any(Category.class))).thenReturn("Dog Walking in Auckland");
     }
 
+    @Test
+    public void TestEmptySearch(){
+        String[] keywords = {"Waiheke Island", "Pet", "Care"};
+        SearchQuery query = new SearchQuery(keywords);
+        ArrayList<Document> resultDocs = new ArrayList<Document>();
+
+        Assert.assertTrue(resultDocs.isEmpty());
+
+        ArrayList<Category> categorisedDocs = _docHandler.categorise(resultDocs);
+        Assert.assertTrue(categorisedDocs.isEmpty());
+    }
 
     @Test
-    public void testSearchReturnDocuments(){
-        String[] keywords = {"Auckland", "Pet", "Walking"};
+    public void TestSearchReturnDocuments(){
+        String[] keywords = {"Auckland", "Pet", "Care"};
         SearchQuery query = new SearchQuery(keywords);
         ArrayList<Document> resultDocs = _searchService.search(query);
 
+        // 10 auckland pet-care related documents found
         Assert.assertTrue(resultDocs.size() == 10);
         Assert.assertTrue(resultDocs.get(0).name().equals("Dog Walking Ponsonby Inc"));
-
     }
 
     @Test
-    public void testDocumentClustering(){
-        String[] keywords = {"Auckland", "Pet", "Walking"};
+    public void TestDocumentClustering(){
+        String[] keywords = {"Auckland", "Pet", "Care"};
         SearchQuery query = new SearchQuery(keywords);
         ArrayList<Document> resultDocs = _searchService.search(query);
 
         ArrayList<Category> categorisedDocs = _docHandler.categorise(resultDocs);
 
-        /* E.g. Documents were categorised into three separate categories (Dog/Cat/Goat) */
+        // Documents clustered into three separate categories based on the pet(Dog/Cat/Goat)
         Assert.assertTrue(categorisedDocs.size() == 3);
     }
 
     @Test
-    public void testCategoryLabelExtraction(){
-        String[] keywords = {"Auckland", "Pet", "Walking"};
+    public void TestCategoryLabelExtraction(){
+        String[] keywords = {"Auckland", "Pet", "Care"};
         SearchQuery query = new SearchQuery(keywords);
         ArrayList<Document> resultDocs = _searchService.search(query);
 
         ArrayList<Category> categorisedDocs = _docHandler.categorise(resultDocs);
 
         for(Category c : categorisedDocs) {
-            c.setLabel(_langProcessor.extractCategoryLabel(c));
+            c.setLabel(_langProcessor.findCategoryLabel(c));
         }
+
+        // Category labels identified by the pet
         Assert.assertTrue(categorisedDocs.get(0).label().equals("Dog"));
     }
 
     @Test
-    public void testCategorySummaryGeneration(){
-        String[] keywords = {"Auckland", "Pet", "Walking"};
+    public void TestCategorySummaryGeneration(){
+        String[] keywords = {"Auckland", "Pet", "Care"};
         SearchQuery query = new SearchQuery(keywords);
         ArrayList<Document> resultDocs = _searchService.search(query);
 
         ArrayList<Category> categorisedDocs = _docHandler.categorise(resultDocs);
         for(Category c : categorisedDocs) {
-            c.setSummary(_langProcessor.extractCategorySummary(c));
+            c.setSummary(_langProcessor.findCategorySummary(c));
         }
-        Assert.assertTrue(categorisedDocs.get(0).summary().equals("Dog Walking"));
+
+        // Category summaries identified by the pet, activity and location
+        Assert.assertTrue(categorisedDocs.get(0).summary().equals("Dog Walking in Auckland"));
     }
 
     private ArrayList<Document> generateDocumentList() {
@@ -94,5 +109,9 @@ public class TestMarketComprehension {
         docs.add(new Document("Goat Walking Kingsland Inc"));
         docs.add(new Document("Goat Walking Epsom Inc"));
         return docs;
+    }
+
+    private ArrayList<Document> generateEmptyList(){
+       return new ArrayList<Document>();
     }
 }
