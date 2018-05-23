@@ -47,6 +47,16 @@ public class TestBusinessIdeaValidation {
     }
 
     @Test
+    public void testAssigningNormalRelevanceToCategory() {
+        Category c = new Category(1);
+
+        c.setRelevance(Relevance.RELEVANT);
+
+        assertEquals(c.getRelevanceType(), Relevance.RELEVANT);
+        assertEquals(c.getWeightedRelevance(), 0.5, 0);
+    }
+
+    @Test
     public void testAssigningRelevanceOfSearchCategoriesMultipleTimes() {
         Category c = new Category(1);
 
