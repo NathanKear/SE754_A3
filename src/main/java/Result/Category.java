@@ -27,7 +27,11 @@ public class Category {
         return _relevance;
     }
 
-    public double getWeightedRelevance () {
+    public double getWeightedRelevance () throws UnassignedRelevanceException {
+        if (_relevance == null) {
+            throw new UnassignedRelevanceException(String.format("Relevance for Category %d has not been set", _id));
+        }
+
         return (double) _relevance.ordinal()/Relevance.NUMBER_OF_RELEVANCE_TYPES;
     }
 
