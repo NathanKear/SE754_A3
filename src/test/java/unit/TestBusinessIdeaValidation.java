@@ -40,6 +40,18 @@ public class TestBusinessIdeaValidation {
     }
 
     @Test
+    public void testCalculatingWeightedRelevancyWhenNull() {
+        Category c = new Category(1);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 0, 0);
+            fail();
+        } catch (UnassignedRelevanceException ex) {
+            assertEquals("Relevance for Category 1 has not been set", ex.getMessage());
+        }
+    }
+
+    @Test
     public void testAssigningNotRelevantToCategory() {
         Category c = new Category(1);
 
