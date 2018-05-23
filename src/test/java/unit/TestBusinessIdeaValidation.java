@@ -27,7 +27,12 @@ public class TestBusinessIdeaValidation {
     }
 
     @Test
-    public void testAssigningRelevanceOfSearchCategories() {
+    public void testAssigningNotRelevantToCategory() {
+        
+    }
+
+    @Test
+    public void testAssigningRelevanceOfSearchCategoriesMultipleTimes() {
         Category c = new Category(1);
 
         c.setRelevance(Relevance.NOT_RELEVANT);
