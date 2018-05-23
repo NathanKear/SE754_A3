@@ -16,6 +16,7 @@ import java.util.List;
 public class StoryRunner extends JUnitStories{
 
     private String[] _storyFiles = new String[] {
+        "acceptance/i_can_input_business_idea_and_get_keywords.story"
     };
 
     public StoryRunner() {
