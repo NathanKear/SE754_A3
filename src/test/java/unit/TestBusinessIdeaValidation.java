@@ -7,6 +7,7 @@ import Result.Relevance;
 import Result.Category;
 import BusinessValidation.IdeaValidator;
 
+import Result.UnassignedRelevanceException;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -27,28 +28,152 @@ public class TestBusinessIdeaValidation {
     }
 
     @Test
-    public void testAssigningRelevanceOfSearchCategories() {
+    public void testCalculatingWeightingWhenLessDocumentsThanInCategory() {
+        Category c = new Category(1);
+
+        for (int i = 0; i < 40; i++) {
+            c.addDocument(new Document(i + ""));
+        }
+
+        c.calculatePopularityWeighting(35);
+        assertEquals(1, c.getPopularityWeighting(), 0);
+    }
+
+    @Test
+    public void testCalculatingWeightedRelevancyWhenNull() {
+        Category c = new Category(1);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 0, 0);
+            fail();
+        } catch (UnassignedRelevanceException ex) {
+            assertEquals("Relevance for Category 1 has not been set", ex.getMessage());
+        }
+    }
+
+    @Test
+    public void testAssigningNotRelevantToCategory() {
+        Category c = new Category(1);
+
+        c.setRelevance(Relevance.NOT_RELEVANT);
+
+        assertEquals(c.getRelevanceType(), Relevance.NOT_RELEVANT);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 0, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testAssigningWeakRelevanceToCategory() {
+        Category c = new Category(1);
+
+        c.setRelevance(Relevance.WEAK_RELEVANT);
+
+        assertEquals(c.getRelevanceType(), Relevance.WEAK_RELEVANT);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 0.25, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testAssigningNormalRelevanceToCategory() {
+        Category c = new Category(1);
+
+        c.setRelevance(Relevance.RELEVANT);
+
+        assertEquals(c.getRelevanceType(), Relevance.RELEVANT);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 0.5, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testAssigningVeryRelevantToCategory() {
+        Category c = new Category(1);
+
+        c.setRelevance(Relevance.VERY_RELEVANT);
+
+        assertEquals(c.getRelevanceType(), Relevance.VERY_RELEVANT);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 0.75, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testAssigningTheSameRelevaneToCategory() {
+        Category c = new Category(1);
+
+        c.setRelevance(Relevance.THE_SAME);
+
+        assertEquals(c.getRelevanceType(), Relevance.THE_SAME);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 1, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
+    }
+
+    @Test
+    public void testAssigningRelevanceOfSearchCategoriesMultipleTimes() {
         Category c = new Category(1);
 
         c.setRelevance(Relevance.NOT_RELEVANT);
         assertEquals(c.getRelevanceType(), Relevance.NOT_RELEVANT);
-        assertEquals(c.getWeightedRelevance(), 0, 0);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 0, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
 
         c.setRelevance(Relevance.WEAK_RELEVANT);
         assertEquals(c.getRelevanceType(), Relevance.WEAK_RELEVANT);
-        assertEquals(c.getWeightedRelevance(), 0.25, 0);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 0.25, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
 
         c.setRelevance(Relevance.RELEVANT);
         assertEquals(c.getRelevanceType(), Relevance.RELEVANT);
-        assertEquals(c.getWeightedRelevance(), 0.5, 0);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 0.5, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
 
         c.setRelevance(Relevance.VERY_RELEVANT);
         assertEquals(c.getRelevanceType(), Relevance.VERY_RELEVANT);
-        assertEquals(c.getWeightedRelevance(), 0.75, 0);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 0.75, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
 
         c.setRelevance(Relevance.THE_SAME);
         assertEquals(c.getRelevanceType(), Relevance.THE_SAME);
-        assertEquals(c.getWeightedRelevance(), 1, 0);
+
+        try {
+            assertEquals(c.getWeightedRelevance(), 1, 0);
+        } catch (UnassignedRelevanceException ex) {
+            fail();
+        }
     }
 
     @Test
@@ -83,6 +208,22 @@ public class TestBusinessIdeaValidation {
         double ideaMaturity = ideaValidator.calculateIdeaMaturity(categories);
 
         assertEquals(0.325, ideaMaturity, 0);
+    }
+
+    @Test
+    public void testCalculatingBusinessMaturityScoreWhenUserHasNotSetRelevance () {
+        List<Category> categories = new ArrayList<Category>();
+
+        Category c = new Category(1);
+        addTestDocuments(c, 2);
+        c.calculatePopularityWeighting(10);
+
+        categories.add(c);
+
+        IdeaValidator ideaValidator = new IdeaValidator();
+        double ideaMaturity = ideaValidator.calculateIdeaMaturity(categories);
+
+        assertEquals(0, ideaMaturity, 0);
     }
 
     public void addTestDocuments(Category c, int numOfDocumentsToAdd) {

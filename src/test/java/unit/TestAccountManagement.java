@@ -11,23 +11,23 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class TestAccountManagement {
-    UserDatabase _db;
+    UserDatabase _userDb;
     AuthenticationService _auth;
     UserManager _userManager;
 
     @Before
     public void setup() {
-        _db = mock(UserDatabase.class);
-        _auth = new AuthenticationService(_db);
-        _userManager = new UserManager(_db);
+        _userDb = mock(UserDatabase.class);
+        _auth = new AuthenticationService(_userDb);
+        _userManager = new UserManager(_userDb);
 
-        when(_db.get(anyString(), anyString())).thenReturn(null);
+        when(_userDb.get(anyString(), anyString())).thenReturn(null);
 
-        when(_db.add("user", "password", new User("user", UserType.BASIC))).thenReturn(true);
-        when(_db.get("user", "password")).thenReturn(new User("user", UserType.BASIC));
+        when(_userDb.add("user", "password", new User("user", UserType.BASIC))).thenReturn(true);
+        when(_userDb.get("user", "password")).thenReturn(new User("user", UserType.BASIC));
 
-        when(_db.add("admin", "password", new User("admin", UserType.ADMIN))).thenReturn(true);
-        when(_db.get("admin", "password")).thenReturn(new User("admin", UserType.ADMIN));
+        when(_userDb.add("admin", "password", new User("admin", UserType.ADMIN))).thenReturn(true);
+        when(_userDb.get("admin", "password")).thenReturn(new User("admin", UserType.ADMIN));
     }
 
     @Test
@@ -85,7 +85,7 @@ public class TestAccountManagement {
         List<User> users = new ArrayList();
         users.add(new User("user", UserType.BASIC));
         users.add(new User("admin", UserType.ADMIN));
-        when(_db.getAll()).thenReturn(users);
+        when(_userDb.getAll()).thenReturn(users);
 
         User admin = _auth.login("admin", "password");
         try {
@@ -107,4 +107,10 @@ public class TestAccountManagement {
         }
     }
 
+    @Test
+    public void testSessionSearchHistory() {
+        User user = _auth.login("user", "password");
+        _userManager.makeUserSearch(user, "My search");
+
+    }
 }

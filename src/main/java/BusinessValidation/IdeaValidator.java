@@ -2,6 +2,7 @@ package BusinessValidation;
 
 import java.util.List;
 import Result.Category;
+import Result.UnassignedRelevanceException;
 
 public class IdeaValidator {
 
@@ -9,7 +10,16 @@ public class IdeaValidator {
         double ideaMaturityScore = 0;
 
         for (Category c : categories) {
-            ideaMaturityScore += c.getPopularityWeighting() * c.getWeightedRelevance();
+            double popularityWeighting = c.getPopularityWeighting();
+            double weightedRelevance;
+
+            try {
+                weightedRelevance = c.getWeightedRelevance();
+            } catch (UnassignedRelevanceException ex) {
+                weightedRelevance = 0;
+            }
+
+            ideaMaturityScore += popularityWeighting * weightedRelevance;
         }
 
         return  ideaMaturityScore;

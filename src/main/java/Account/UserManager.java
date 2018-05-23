@@ -20,4 +20,8 @@ public class UserManager {
         List<User> users = _db.getAll();
         return users.size();
     }
+
+    public void makeUserSearch(User user, String phrase) {
+
+    }
 }
