@@ -52,4 +52,8 @@ public class Category {
     public void setLabel(String label) { _label = label; }
 
     public String label() { return _label; }
+
+    public List<Document> getDocuments() {
+        return _documents;
+    }
 }
