@@ -16,7 +16,8 @@ import java.util.List;
 public class StoryRunner extends JUnitStories{
 
     private String[] _storyFiles = new String[] {
-        "acceptance/i_can_input_business_idea_and_get_keywords.story"
+        "acceptance/i_can_input_business_idea_and_get_keywords.story",
+            "acceptance/i_can_search_and_get_a_set_of_documents.story"
     };
 
     public StoryRunner() {
@@ -42,7 +43,7 @@ public class StoryRunner extends JUnitStories{
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        return new InstanceStepsFactory(configuration(), new KeywordExtractionSteps());
+        return new InstanceStepsFactory(configuration(), new KeywordExtractionSteps(), new DocumentSearchSteps());
     }
 
     @Override
