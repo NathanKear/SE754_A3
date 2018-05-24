@@ -47,6 +47,7 @@ public class BusinessIdeaValidationSteps {
         for (Category c : _categories) {
             if (c.getRelevanceType() == null) {
                 c.setRelevance(relevance);
+                break;
             }
         }
     }
