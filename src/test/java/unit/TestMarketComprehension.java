@@ -32,7 +32,7 @@ public class TestMarketComprehension {
 
     @Test
     public void testEmptySearch(){
-        String[] keywords = {"Waiheke Island", "Pet", "Care"};
+        String[] keywords = {"Hamilton", "Pet", "Care"};
         SearchQuery query = new SearchQuery(keywords);
         ArrayList<Document> resultDocs = new ArrayList<Document>();
 
