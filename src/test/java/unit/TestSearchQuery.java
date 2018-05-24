@@ -6,21 +6,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class TestSearchQuery {
-    /*
-    SearchQuery
-    + (String[] keyWords)
-    + keywords : Map<String, Double>
-    + addKeyword(keyword : String) : boolean
-    + removeKeyword(keyword : String) : boolean
-    + adjustKeywordWeighting(keyword : String, double : adjustment)
-    + getKeywordWeighting(keyword : String) : double
-    + getKeywords() : List<String>
-     */
-
-    /*
-    SearchQueryService
-    + createSearchQuery(phrase : String) : SearchQuery
-      */
 
     @Test
     public void TestGetKeywords() {
