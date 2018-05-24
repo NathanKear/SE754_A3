@@ -42,7 +42,8 @@ public class BusinessIdeaValidationSteps {
     }
 
     @When("I assign a category a relevancy of $relevance")
-    public void assignRelevancy(Relevance relevance) {
+    public void assignRelevancy(String relevanceType) {
+        Relevance relevance = Relevance.valueOf(relevanceType.toUpperCase());
         for (Category c : _categories) {
             if (c.getRelevanceType() == null) {
                 c.setRelevance(relevance);
@@ -65,6 +66,6 @@ public class BusinessIdeaValidationSteps {
     public void checkBusinessMaturity() {
         IdeaValidator ideaValidator = new IdeaValidator();
         double ideaMaturity = ideaValidator.calculateIdeaMaturity(_categories);
-        System.out.println(ideaMaturity);
+        assertEquals(0.5, ideaMaturity, 0);
     }
 }

@@ -20,7 +20,7 @@ public class StoryRunner extends JUnitStories{
     private String[] _storyFiles = new String[] {
         "acceptance/i_can_input_business_idea_and_get_keywords.story",
         "acceptance/i_can_prioritise_keywords_by_changing_weighting.story",
-            "acceptance/i_can_search_and_get_a_set_of_documents.story",
+        "acceptance/i_can_search_and_get_a_set_of_documents.story",
         "acceptance/i_can_add_or_remove_keywords.story",
         "acceptance/i_can_search_and_get_idea_maturity.story"
     };
@@ -48,8 +48,7 @@ public class StoryRunner extends JUnitStories{
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        return new InstanceStepsFactory(configuration(), new KeywordExtractionSteps(), new DocumentSearchSteps(), new KeywordExtractionSteps());
-//        return new InstanceStepsFactory(configuration(), new KeywordExtractionSteps(), new DocumentSearchSteps(), new KeywordExtractionSteps(), new BusinessIdeaValidationSteps());
+        return new InstanceStepsFactory(configuration(), new KeywordExtractionSteps(), new DocumentSearchSteps(), new KeywordExtractionSteps(), new BusinessIdeaValidationSteps());
     }
 
     @Override
