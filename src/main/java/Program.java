@@ -1,8 +1,10 @@
 
 import Account.*;
+import BusinessValidation.IdeaValidator;
 import Result.Category;
 import Result.Document;
 import Result.DocumentHandler;
+import Result.Relevance;
 import Search.NaturalLanguageProcessor;
 import Search.SearchQuery;
 import Search.SearchQueryService;
@@ -12,7 +14,9 @@ import org.junit.Assert;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Test.*;
@@ -27,7 +31,9 @@ public class Program {
         SignUp,
         EnterSearch,
         AlterSearch,
-        Search
+        Search,
+        Relevance,
+        IdeaMaturity
     }
 
     private static State _currentState;
@@ -40,6 +46,7 @@ public class Program {
         _currentState = State.SignUp;
         User user = null;
         SearchQuery searchQuery = null;
+        List<Category> categories = null;
 
         while (!exit) {
             switch (_currentState) {
@@ -53,8 +60,13 @@ public class Program {
                     searchQuery = alterSearch(searchQuery);
                     break;
                 case Search:
-                    search(searchQuery);
+                    categories = search(searchQuery);
                     break;
+                case Relevance:
+                    editRelevance(categories);
+                    break;
+                case IdeaMaturity:
+                    exit = calculateIdeaMaturity(categories);
             }
         }
     }
@@ -176,7 +188,7 @@ public class Program {
         return searchQuery;
     }
 
-    private static void search(SearchQuery searchQuery) {
+    private static List<Category> search(SearchQuery searchQuery) {
 
         clearScreen();
         printTitle("Search Results");
@@ -193,7 +205,7 @@ public class Program {
         when(_langProcessor.findCategorySummary(any(Category.class))).thenReturn("Cat Walking in Auckland", "Goat Walking in Auckland", "Dog Walking in Auckland");
 
         ArrayList<Document> resultDocs = _searchService.search(searchQuery);
-        ArrayList<Category> categorisedDocs = _docHandler.categorise(resultDocs);
+        List<Category> categorisedDocs = _docHandler.categorise(resultDocs);
 
         System.out.println();
         for (Category category : categorisedDocs) {
@@ -209,7 +221,85 @@ public class Program {
             }
         }
 
-        readInput("Press enter to exit");
+        _currentState = State.Relevance;
+        return categorisedDocs;
+    }
+
+    private static void editRelevance (List<Category> categories) {
+        boolean finshedEditingRelevance = false;
+
+        while (!finshedEditingRelevance) {
+            printTitle("Edit Relevance of categories");
+            printSpace();
+            System.out.println("Enter:");
+            System.out.println("    [C] - Change Relevancy");
+            System.out.println("    [X] - Finished changing relevance");
+            printSpace();
+            printCurrentCategoryInformation(categories);
+
+            String command = readInput("Enter a command: ");
+
+            if (command.toUpperCase().equals("C")) {
+                String categoryToChange = readInput("Enter the name of the category to change: ");
+                Category c = getCategoryFromName(categoryToChange, categories);
+
+                String relevanceType = readInput("Enter the relevance of the category. Options: NOT_RELEVANT, WEAK_RELEVANT, RELEVANT, VERY_RELEVANT, THE_SAME: ");
+                Relevance relevance = Relevance.valueOf(relevanceType.toUpperCase());
+
+                if (relevance == null || c == null) {
+                    System.out.println("Invalid relevance or category option. Please choose a valid option.");
+                } else {
+                    changeCategoryRelevance(c, relevance);
+                }
+            } else if (command.toUpperCase().equals("X")) {
+                finshedEditingRelevance = true;
+                _currentState = State.IdeaMaturity;
+            } else {
+                System.out.println("Invalid command. Please choose a valid option.");
+            }
+        }
+
+    }
+
+    public static Category getCategoryFromName(String name, List<Category> categories) {
+        for (Category c : categories) {
+            if (c.label().toUpperCase().equals(name.toUpperCase())) {
+                return c;
+            }
+        }
+
+        return null;
+    }
+
+    public static void changeCategoryRelevance(Category c, Relevance relevance) {
+        c.setRelevance(relevance);
+    }
+
+    public static void printCurrentCategoryInformation (List<Category> categories) {
+        for (Category c : categories) {
+            Relevance relevance = c.getRelevanceType();
+            System.out.println("Name: " + c.label());
+            System.out.println("Summary: " + c.summary());
+            System.out.println("Relevance: " + (relevance == null ? "Not set" : relevance.toString()));
+            printSpace();
+        }
+    }
+
+    public static boolean calculateIdeaMaturity (List<Category> categories) {
+        printTitle("Business Idea Maturity");
+        IdeaValidator ideaValidator = new IdeaValidator();
+        double ideaMaturity = ideaValidator.calculateIdeaMaturity(categories);
+        System.out.println("Business idea maturity score ranges from 0 - 1");
+        System.out.println("Your idea has a business maturity score of: " + ideaMaturity);
+
+        String input = readInput("Press enter to exit or any other key to search again");
+        boolean shouldProgramExit = input.length() == 0;
+
+        if (!shouldProgramExit) {
+            _currentState = State.EnterSearch;
+        }
+
+        return shouldProgramExit;
     }
 
     private static ArrayList<Document> generateDocumentList() {

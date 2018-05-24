@@ -6,14 +6,11 @@ import Result.Document;
 import Result.DocumentHandler;
 import Result.Relevance;
 import org.jbehave.core.annotations.Given;
-import org.jbehave.core.annotations.BeforeStory;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class BusinessIdeaValidationSteps {
 
