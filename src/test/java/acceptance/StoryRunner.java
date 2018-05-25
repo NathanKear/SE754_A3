@@ -11,12 +11,18 @@ import org.jbehave.core.reporters.Format;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
+import org.jbehave.core.steps.ParameterConverters;
+
 import java.util.List;
 
 public class StoryRunner extends JUnitStories{
 
     private String[] _storyFiles = new String[] {
-        "acceptance/i_can_input_business_idea_and_get_keywords.story"
+        "acceptance/i_can_input_business_idea_and_get_keywords.story",
+        "acceptance/i_can_prioritise_keywords_by_changing_weighting.story",
+        "acceptance/i_can_search_and_get_a_set_of_documents.story",
+        "acceptance/i_can_add_or_remove_keywords.story",
+        "acceptance/i_can_search_and_get_idea_maturity.story"
     };
 
     public StoryRunner() {
@@ -24,9 +30,9 @@ public class StoryRunner extends JUnitStories{
                 .embedderControls()
                 .doGenerateViewAfterStories(true)
                 .doIgnoreFailureInStories(false)
-                .doIgnoreFailureInView(true)
+                .doIgnoreFailureInView(false)
                 .doVerboseFailures(true)
-                .useThreads(5);
+                .useThreads(1);
     }
 
     @Override
@@ -42,7 +48,7 @@ public class StoryRunner extends JUnitStories{
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        return new InstanceStepsFactory(configuration(), new KeywordExtractionSteps());
+        return new InstanceStepsFactory(configuration(), new KeywordExtractionSteps(), new DocumentSearchSteps(), new KeywordExtractionSteps(), new BusinessIdeaValidationSteps());
     }
 
     @Override

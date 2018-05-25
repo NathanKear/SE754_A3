@@ -32,7 +32,7 @@ public class TestMarketComprehension {
 
     @Test
     public void testEmptySearch(){
-        String[] keywords = {"Waiheke Island", "Pet", "Care"};
+        String[] keywords = {"Hamilton", "Pet", "Care"};
         SearchQuery query = new SearchQuery(keywords);
         ArrayList<Document> resultDocs = new ArrayList<Document>();
 
@@ -63,6 +63,10 @@ public class TestMarketComprehension {
 
         // Documents clustered into three separate categories based on the pet(Dog/Cat/Goat)
         Assert.assertTrue(categorisedDocs.size() == 3);
+
+        Assert.assertTrue(categorisedDocs.get(0).getDocuments().size() == 3);
+        Assert.assertTrue(categorisedDocs.get(1).getDocuments().size() == 4);
+        Assert.assertTrue(categorisedDocs.get(2).getDocuments().size() == 3);
     }
 
     @Test
