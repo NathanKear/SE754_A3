@@ -1,4 +1,4 @@
-package acceptance.AccountManagment;
+package acceptance.AccountManagement;
 
 import Account.*;
 import Search.NaturalLanguageProcessor;
@@ -24,7 +24,7 @@ public class AccountManagementSteps {
     SearchDatabase _searchDb;
     User _user;
 
-    @Given("Application is open")
+    @Given("I am in the application")
     public void applicationIsOpen() {
         _auth = new AuthenticationService(_userDb);
         _userDb = mock(UserDatabase.class);
@@ -41,13 +41,17 @@ public class AccountManagementSteps {
         _user = _auth.signUp(username, password, UserType.BASIC);
     }
 
-    @When("I enter the username $username and password $password")
+    @When("I enter the username $username and password $password for a basic user account")
     public void login(String username, String password) {
         _user = _auth.login(username, password);
     }
 
-    @When("I enter the username $username and password $password")
+
+    @When("I signup with the username $username and password $password")
     public void signup(String username, String password) {
+        System.out.println(username+ password);
+        _auth = new AuthenticationService(_userDb);
+
         _user = _auth.signUp(username, password, UserType.BASIC);
     }
 

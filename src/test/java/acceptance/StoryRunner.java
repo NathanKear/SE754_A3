@@ -1,5 +1,6 @@
 package acceptance;
 
+import acceptance.AccountManagement.AccountManagementSteps;
 import org.jbehave.core.Embeddable;
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
@@ -11,7 +12,6 @@ import org.jbehave.core.reporters.Format;
 import org.jbehave.core.reporters.StoryReporterBuilder;
 import org.jbehave.core.steps.InjectableStepsFactory;
 import org.jbehave.core.steps.InstanceStepsFactory;
-import org.jbehave.core.steps.ParameterConverters;
 
 import java.util.List;
 
@@ -49,7 +49,7 @@ public class StoryRunner extends JUnitStories{
 
     @Override
     public InjectableStepsFactory stepsFactory() {
-        return new InstanceStepsFactory(configuration(), new KeywordExtractionSteps(), new DocumentSearchSteps(), new KeywordExtractionSteps(), new BusinessIdeaValidationSteps());
+        return new InstanceStepsFactory(configuration(), new KeywordExtractionSteps(), new DocumentSearchSteps(), new KeywordExtractionSteps(), new BusinessIdeaValidationSteps(), new AccountManagementSteps());
     }
 
     @Override
