@@ -24,9 +24,6 @@ public class AccountManagementSteps {
     SearchDatabase _searchDb;
     User _user;
 
-    private SearchQueryService _searchQueryService;
-    private SearchQuery _searchQuery;
-
     @Given("Application is open")
     public void applicationIsOpen() {
         _auth = new AuthenticationService(_userDb);
@@ -38,13 +35,29 @@ public class AccountManagementSteps {
         when(_userDb.get("admin", "password")).thenReturn(new User("admin", UserType.ADMIN));
     }
 
-    @When("When I enter the username $user and password $password")
-    public void login(String username, String password) {
+    @Given("I have an account with username $username and password $password")
+    public void makeAccount(String username, String password) {
+        applicationIsOpen();
         _user = _auth.signUp(username, password, UserType.BASIC);
     }
 
-    @Then("Then I have a new account created for me with username $user")
+    @When("I enter the username $username and password $password")
+    public void login(String username, String password) {
+        _user = _auth.login(username, password);
+    }
+
+    @When("I enter the username $username and password $password")
+    public void signup(String username, String password) {
+        _user = _auth.signUp(username, password, UserType.BASIC);
+    }
+
+    @Then("I have a new account created for me with username $username")
     public void userCreated(String username) {
+        assertEquals(username, _user.getUsername());
+    }
+
+    @Then("I am logged into my account with username $username")
+    public void loggedIn(String username) {
         assertEquals(username, _user.getUsername());
     }
 }
