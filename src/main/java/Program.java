@@ -73,6 +73,7 @@ public class Program {
 
     private static void signUp() {
         UserDatabase userDb = mock(UserDatabase.class);
+        SearchDatabase searchDb = mock(SearchDatabase.class);
 
         when(userDb.get(anyString(), anyString())).thenReturn(null);
 
@@ -80,7 +81,7 @@ public class Program {
         when(userDb.get("user", "password")).thenReturn(new User("user", UserType.BASIC));
 
         AuthenticationService auth = new AuthenticationService(userDb);
-        UserManager userManager = new UserManager(userDb);
+        UserManager userManager = new UserManager(userDb, searchDb);
 
         boolean signedUp = false;
 

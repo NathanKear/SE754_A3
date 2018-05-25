@@ -32,10 +32,6 @@ public class AccountManagementSteps {
     public void applicationIsOpen() {
         NaturalLanguageProcessor naturalLanguageProcessor = mock(NaturalLanguageProcessor.class);
         _searchQueryService = new SearchQueryService(naturalLanguageProcessor);
-
-        when(naturalLanguageProcessor.findKeywords(anyString())).thenReturn(new String[] {});
-        when(naturalLanguageProcessor.findKeywords(shortPhrase)).thenReturn(new String[] { "fox" });
-        when(naturalLanguageProcessor.findKeywords(longPhrase)).thenReturn(new String[] { "fox", "jumps", "dog" });
     }
 
     @When("I input the business idea \"$phrase\"")

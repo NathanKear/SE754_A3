@@ -31,7 +31,6 @@ public class TestAccountManagement {
         when(_userDb.get("admin", "password")).thenReturn(new User("admin", UserType.ADMIN));
     }
 
-
     @Test
     public void testUserSignUp() {
         User newUser = _auth.signUp("user", "password", UserType.BASIC);
