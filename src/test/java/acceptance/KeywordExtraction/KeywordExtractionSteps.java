@@ -1,4 +1,4 @@
-package acceptance;
+package acceptance.KeywordExtraction;
 
 import Search.NaturalLanguageProcessor;
 import Search.SearchQuery;

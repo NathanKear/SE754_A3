@@ -1,4 +1,4 @@
-package acceptance;
+package acceptance.DocumentSearch;
 
 import Result.DocumentHandler;
 import Result.Category;

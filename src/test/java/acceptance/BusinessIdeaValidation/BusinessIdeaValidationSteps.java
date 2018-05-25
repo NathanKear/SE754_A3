@@ -1,4 +1,4 @@
-package acceptance;
+package acceptance.BusinessIdeaValidation;
 
 import BusinessValidation.IdeaValidator;
 import Result.Category;
