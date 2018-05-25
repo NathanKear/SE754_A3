@@ -3,7 +3,7 @@ IN ORDER TO understand the search results better
 AS A user
 I WANT TO see the importance/popularity of the returned categories
 
-Scenario: Documents form search are categorised and weighted
+Scenario: Documents from search are categorised and weighted and business maturity is calculated
 Given The application is open
 And A valid search
 When The documents are processed
