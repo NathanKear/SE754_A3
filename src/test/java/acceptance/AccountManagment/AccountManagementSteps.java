@@ -1,9 +1,6 @@
 package acceptance.AccountManagment;
 
-import Account.AuthenticationService;
-import Account.SearchDatabase;
-import Account.UserDatabase;
-import Account.UserManager;
+import Account.*;
 import Search.NaturalLanguageProcessor;
 import Search.SearchQuery;
 import Search.SearchQueryService;
@@ -14,6 +11,7 @@ import org.junit.Assert;
 
 import java.util.List;
 
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.fail;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -24,33 +22,29 @@ public class AccountManagementSteps {
     AuthenticationService _auth;
     UserManager _userManager;
     SearchDatabase _searchDb;
+    User _user;
 
     private SearchQueryService _searchQueryService;
     private SearchQuery _searchQuery;
 
     @Given("Application is open")
     public void applicationIsOpen() {
-        NaturalLanguageProcessor naturalLanguageProcessor = mock(NaturalLanguageProcessor.class);
-        _searchQueryService = new SearchQueryService(naturalLanguageProcessor);
+        _auth = new AuthenticationService(_userDb);
+        _userDb = mock(UserDatabase.class);
+        when(_userDb.get(anyString(), anyString())).thenReturn(null);
+        when(_userDb.add("user", "password", new User("user", UserType.BASIC))).thenReturn(true);
+        when(_userDb.get("user", "password")).thenReturn(new User("user", UserType.BASIC));
+        when(_userDb.add("admin", "password", new User("admin", UserType.ADMIN))).thenReturn(true);
+        when(_userDb.get("admin", "password")).thenReturn(new User("admin", UserType.ADMIN));
     }
 
-    @When("I input the business idea \"$phrase\"")
-    public void inputBusinessIdea(String phrase) {
-        _searchQuery = _searchQueryService.createSearchQuery(phrase);
+    @When("When I enter the username $user and password $password")
+    public void login(String username, String password) {
+        _user = _auth.signUp(username, password, UserType.BASIC);
     }
 
-    @Then("Keywords found $keywords")
-    public void keywordFound(List<String> keywords) {
-        fail();
-        Assert.assertEquals(_searchQuery.getKeywords().size(), keywords.size());
-
-        for (String keyword : keywords) {
-            Assert.assertTrue(keywords.contains(keyword));
-        }
-    }
-
-    @Then("No keywords found")
-    public void noKeywordFound() {
-        fail();
+    @Then("Then I have a new account created for me with username $user")
+    public void userCreated(String username) {
+        assertEquals(username, _user.getUsername());
     }
 }

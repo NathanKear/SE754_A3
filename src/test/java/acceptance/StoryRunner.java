@@ -22,7 +22,8 @@ public class StoryRunner extends JUnitStories{
         "acceptance/i_can_prioritise_keywords_by_changing_weighting.story",
         "acceptance/i_can_search_and_get_a_set_of_documents.story",
         "acceptance/i_can_add_or_remove_keywords.story",
-        "acceptance/i_can_search_and_get_idea_maturity.story"
+        "acceptance/i_can_search_and_get_idea_maturity.story",
+            "acceptance/AccountManagement/user_can_signup.story"
     };
 
     public StoryRunner() {
