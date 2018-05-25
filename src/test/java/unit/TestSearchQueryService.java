@@ -9,22 +9,8 @@ import org.junit.*;
 
 public class TestSearchQueryService {
 
-    /*
-    SearchQuery
-    + keywords : Map<String, Double>
-    + addKeyword(keyword : String, weight : Double) : void
-    + removeKeyword(keyword : String) : boolean
-    + adjustKeywordWeighting(keyword : String, double : adjustment)
-    + getKeywordWeighting(keyword : String) : double
-    + getKeywords() : List<String>
-     */
-
-    /*
-    SearchQueryService
-    + createSearchQuery(phrase : String) : SearchQuery
-      */
-
     private final String shortPhrase = "The quick brown fox";
+    private final String mediumString = "The quick brown fox jumps";
     private final String longPhrase = "The quick brown fox jumps over the lazy dog";
 
     private SearchQueryService _searchQueryService;
@@ -36,6 +22,7 @@ public class TestSearchQueryService {
 
         when(naturalLanguageProcessor.findKeywords(anyString())).thenReturn(new String[] {});
         when(naturalLanguageProcessor.findKeywords(shortPhrase)).thenReturn(new String[] { "fox" });
+        when(naturalLanguageProcessor.findKeywords(mediumString)).thenReturn(new String[] { "fox", "jumps" });
         when(naturalLanguageProcessor.findKeywords(longPhrase)).thenReturn(new String[] { "fox", "jumps", "dog" });
     }
 
