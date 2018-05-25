@@ -24,10 +24,10 @@ public class UserManager {
         return users.size();
     }
 
-    public void makeUserSearch(User user, String phrase) {
-        UUID session = _auth.getSessionID(user);
-        _searchDb.add(user, session, phrase);
-    }
+//    public void makeUserSearch(User user, String phrase) {
+//        UUID session = _auth.getSessionID(user);
+//        _searchDb.add(user, session, phrase);
+//    }
 
     public int getUserSessionSearchCount(User user, UUID sessionID) {
         List<String> searches = _searchDb.get(user,sessionID);
