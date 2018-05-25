@@ -26,7 +26,8 @@ public class StoryRunner extends JUnitStories{
             "acceptance/DocumentSearch/i_can_search_and_get_a_set_of_documents.story",
             "acceptance/KeywordExtraction/i_can_add_or_remove_keywords.story",
             "acceptance/BusinessIdeaValidation/i_can_search_and_get_idea_maturity.story",
-            "acceptance/AccountManagement/user_can_signup.story"
+            "acceptance/AccountManagement/user_can_signup.story",
+            "acceptance/AccountManagement/user_can_login.story"
     };
 
     public StoryRunner() {
