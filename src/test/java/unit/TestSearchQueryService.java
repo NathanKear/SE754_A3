@@ -9,21 +9,6 @@ import org.junit.*;
 
 public class TestSearchQueryService {
 
-    /*
-    SearchQuery
-    + keywords : Map<String, Double>
-    + addKeyword(keyword : String, weight : Double) : void
-    + removeKeyword(keyword : String) : boolean
-    + adjustKeywordWeighting(keyword : String, double : adjustment)
-    + getKeywordWeighting(keyword : String) : double
-    + getKeywords() : List<String>
-     */
-
-    /*
-    SearchQueryService
-    + createSearchQuery(phrase : String) : SearchQuery
-      */
-
     private final String shortPhrase = "The quick brown fox";
     private final String longPhrase = "The quick brown fox jumps over the lazy dog";
 
