@@ -27,7 +27,10 @@ public class StoryRunner extends JUnitStories{
             "acceptance/KeywordExtraction/i_can_add_or_remove_keywords.story",
             "acceptance/BusinessIdeaValidation/i_can_search_and_get_idea_maturity.story",
             "acceptance/AccountManagement/user_can_signup.story",
-            "acceptance/AccountManagement/user_can_login.story"
+            "acceptance/AccountManagement/user_can_login.story",
+            "acceptance/AccountManagement/user_can_log_off.story",
+            "acceptance/AccountManagement/user_can_see_session_search_count.story",
+            "acceptance/AccountManagement/admin_can_see_registered_user_count.story"
     };
 
     public StoryRunner() {

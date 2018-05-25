@@ -4,11 +4,11 @@ AS A user
 I WANT TO see number of searches in current session
 
 Scenario: User search session count
-GIVEN I am logged in
-WHEN I request account information
-THEN I want to see number of searches in the current session
+Given I am logged in with a BASIC account
+When I request account information
+Then I want to see number of searches in the current session
 
 Scenario: User total search count
-GIVEN I am logged in
-WHEN I request account information
-THEN I want to see total number of searches
+Given I am logged in with a BASIC account
+When I request account information
+Then I want to see total number of searches

@@ -85,17 +85,17 @@ public class AccountManagementSteps {
 //    Given I am logged in with a accountTYpe account
     @Given("I am logged in with a $accountType account")
     public void makeAccountAndLogIn(String accountType) {
-        applicationIsOpen();
         _user = _auth.signUp("user", "password", UserType.valueOf(accountType));
     }
-//    When I log out of my account
-    @When("I log out of my account")
+
+    //    When I log out of my account
+    @When("I log off my account")
     public void logOut() {
         _loggedOut = _auth.logout(_user);
     }
 
     //    Then I am logged off
-    @Then("I am logged out")
+    @Then("I am logged off")
     public void testLogOut() {
         assertTrue(_loggedOut);
     }
@@ -128,15 +128,14 @@ public class AccountManagementSteps {
         assertEquals(2, _sessionCount);
     }
 
-//    GIVEN I am logged in as an administrator
-    @Given("I am logged in as an administrator")
-    public void adminLogin() {
-        _user = _auth.signUp("admin", "password", UserType.ADMIN);
-    }
 
 //  WHEN I request the information
     @When("I request the information")
     public void getRegisteredUserCount() {
+        List<User> users = new ArrayList();
+        users.add(new User("user", UserType.BASIC));
+        users.add(new User("admin", UserType.ADMIN));
+        when(_userDb.getAll()).thenReturn(users);
         try {
             _userCount = _userManager.getRegisteredUserCount(_user);
         } catch (Exception e) {}
