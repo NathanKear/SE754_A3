@@ -5,6 +5,6 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ StoryRunner.class })
-public class KeywordExtractionRunnerSuite {
+public class AcceptanceTestSuite {
 
 }
